@@ -1,8 +1,21 @@
 from fastapi import FastAPI , HTTPException , Path , Query
 from typing import Literal
 from model import BookModel
+from fastapi.middleware.cors import CORSMiddleware
+
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "https://id-preview--47698b9a-b52d-4dd5-9736-f6b8f2d9076a.lovable.app",
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+    
 
 lastID = 10000 
 books = []
