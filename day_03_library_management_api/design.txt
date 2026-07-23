@@ -1,0 +1,51 @@
+file structure 
+
+day_03_library_management_api
+	-main.py ->> Initializing Application and Routing 
+	-member.py ->> Functions and Logic to Handle Member Management 
+	-book.py ->> Functions and Logic to Handle Book Management
+	-model.py ->> Validation Classes for both member and book functions
+	-member.json ->> stores member data
+	-book.json ->> stores book data
+	-borrow_records.json ->> stores borrow record
+
+
+Routes :
+
+GET / -> Connection Established
+
+
+POST /members -> Register member
+GET /members/{id} -> Get member Info by ID
+GET /members -> List all members
+
+POST /books -> Add book
+GET /books/{id} -> Get book
+GET /books -> List all books
+
+
+POST /members/{id}/borrow/{book_id} -> book borrowed
+POST /borrow-records/{borrow_id}/return -> book returned 
+
+
+
+Schema Of Member :
+id
+name
+membership
+email
+
+Schema of Book : 
+id
+isbn (unique)
+title
+author
+stock
+
+Schema of Borrow Book :
+borrow_id
+member_id
+book_id
+borrow_date
+status status: Literal["BORROWED","RETURNED","LOST"]
+

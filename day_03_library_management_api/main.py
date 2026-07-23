@@ -1,6 +1,12 @@
 from fastapi import FastAPI , Path 
+from model import  Book , Borrow_Book , Member
+from member import get_all_member , get_member_by_id , register_member
 
 app = FastAPI()
+
+id = 10000 
+book_id = 10000 
+
 
 @app.get("/")
 def home():
@@ -9,33 +15,40 @@ def home():
     }
 
 @app.get("/members")
-def passHelper():
-    pass
+def getMembers():
+    return get_all_member()
 
 @app.get("/members/{id}")
-def passHelper():
-    pass
+def getMembersByID(id : int = Path(... )):
+    return get_member_by_id(id)
+    
 
 @app.post("/members")
-def passHelper():
-    pass
+def registerMember(data : Member):
+
+    global id 
+    data = data.model_dump()
+    id = id + 1 
+    data["id"] = id 
+
+    return register_member(data)
 
 @app.post("/books")
-def passHelper():
+def addBook():
     pass
 
 @app.get("/books/{id}")
-def passHelper():
+def getBookByID():
     pass
 
 @app.get("/books")
-def passHelper():
+def getBooks():
     pass
 
 @app.post("/members/{id}/borrow/{book_id}")
-def passHelper():
+def borrowBook():
     pass
 
 @app.post("/borrow-records/{borrow_id}/return")
-def passHelper():
+def returnBook():
     pass
