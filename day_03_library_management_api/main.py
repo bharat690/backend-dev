@@ -1,11 +1,12 @@
-from fastapi import FastAPI , Path 
-from model import  Book , Borrow_Book , Member
-from member import get_all_member , get_member_by_id , register_member
+from fastapi import FastAPI , Path , HTTPException
+from validators.model import  Book , Borrow_Book , Member
+from utils.member import get_all_member , get_member_by_id , register_member
+from utils.common_utils import load_ids , save_ids  , borrow_books 
+from utils.book import add_new_book , get_book_by_id , get_all_books , return_book
+
 
 app = FastAPI()
 
-id = 10000 
-book_id = 10000 
 
 
 @app.get("/")
@@ -26,29 +27,46 @@ def getMembersByID(id : int = Path(... )):
 @app.post("/members")
 def registerMember(data : Member):
 
-    global id 
     data = data.model_dump()
-    id = id + 1 
+
+    id_cred = load_ids() 
+    id_cred[0]["member_id"] = id_cred[0]["member_id"] + 1
+    id = id_cred[0]["member_id"] 
+
+    save_ids(id_cred)
+    
     data["id"] = id 
 
     return register_member(data)
 
 @app.post("/books")
-def addBook():
-    pass
+def addBook(book : Book):
+    data = book.model_dump()
+    
+    id_cred = load_ids() 
+    id_cred[0]["book_id"] = id_cred[0]["book_id"] + 1
+    id = id_cred[0]["book_id"] 
+    
+    save_ids(id_cred)
+        
+    data["id"] = id 
+    
+    return add_new_book(data)
 
 @app.get("/books/{id}")
-def getBookByID():
-    pass
+def getBookByID(id : int = Path(...)):
+    return get_book_by_id(id) 
 
 @app.get("/books")
 def getBooks():
-    pass
+    return get_all_books()
 
 @app.post("/members/{id}/borrow/{book_id}")
-def borrowBook():
-    pass
+def borrowBook(id : int = Path(...) , 
+               book_id : int = Path(...)):
+    return borrow_books( id , book_id )
+    
 
 @app.post("/borrow-records/{borrow_id}/return")
-def returnBook():
-    pass
+def returnBook(borrow_id : int = Path(...)):
+    return return_book(borrow_id)

@@ -1,18 +1,15 @@
-import json
 from pathlib import Path
 from fastapi import HTTPException
 from typing import List , Dict 
+from utils.common_utils import load_json , save_json
 
-DATA_FILE = Path("member.json")
+DATA_FILE = Path("data/member.json")
 
-def load_members() -> List[Dict]:
-    with open(DATA_FILE , 'r' , encoding="utf-8") as file : 
-        return json.load(file) 
-
+def load_members():
+    return load_json(DATA_FILE) 
 
 def save_members(data):
-    with open(DATA_FILE , 'w' , encoding="utf-8") as file : 
-            json.dump(data , file , indent= 4 , ensure_ascii= False)
+    save_json(data , DATA_FILE)
 
 
 def get_all_member():
@@ -44,7 +41,7 @@ def register_member(member : Dict):
 
     return {
         "message" : "Member Registered Successfully"
-    }
+    } 
 
     
 
