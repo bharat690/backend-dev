@@ -23,111 +23,119 @@ def count_books(dataset , member_id) -> int :
 
     return counter
 
-def borrow_books(id , book_id) : 
+def borrow_books(id, book_id):
 
-    
     members = load_members()
-    books = load_books() 
+    books = load_books()
 
     member_exists = False
-    for member in members :
-        if member["id"] == id  : 
-            member_exists = True 
+    for member in members:
+        if member["id"] == id:
+            member_exists = True
             membership = member["membership"]
+            break
 
-
-    if not member_exists : 
-         raise HTTPException(status_code=300 , detail="member doesnt exists")
+    if not member_exists:
+        raise HTTPException(status_code=404, detail="Member doesn't exist")
 
     book_exists = False
-    for book in books :
-        if book["id"] == book_id  : 
-            book_exists = True 
-            stock = book["stock"] 
-            if stock : 
-                book["stock"] = book["stock"] - 1 
-            
-            
-    if not book_exists :
-         raise HTTPException(status_code=300 , detail="book doesnt exists")
-    if not stock : 
-         raise HTTPException(status_code=404 , detail="out of stock")
-     
-    
-    
+    for book in books:
+        if book["id"] == book_id:
+            book_exists = True
+            stock = book["stock"]
+            break
+
+    if not book_exists:
+        raise HTTPException(status_code=404, detail="Book doesn't exist")
+
+    if stock <= 0:
+        raise HTTPException(status_code=409, detail="Out of stock")
+
     borrow_path = Path("data/borrow_records.json")
     Borrow_Data = load_json(borrow_path)
-    bookHolded = count_books(Borrow_Data , id)
-    
+    bookHolded = count_books(Borrow_Data, id)
+
     for record in Borrow_Data:
         if (
             record["book_id"] == book_id
             and record["status"] == "BORROWED"
         ):
-            raise HTTPException(status_code=300 , detail="Duplicate Borrowing")
-    
-    if(membership == "Free" and bookHolded >= 3 ) :
-        raise HTTPException(status_code=400 , detail="Upgarde Membership" )
-    if(membership == "Elite" and bookHolded >= 5 ) :
-            raise HTTPException(status_code=400 , detail="Upgarde Membership" )
-    if(membership == "Master" and bookHolded >= 10 ) :
-            raise HTTPException(status_code=400 , detail="Max Book Limit Reached" )
-        
+            raise HTTPException(status_code=409, detail="Book already borrowed")
+
+    if membership == "Free" and bookHolded >= 3:
+        raise HTTPException(status_code=400, detail="Upgrade Membership")
+
+    if membership == "Elite" and bookHolded >= 5:
+        raise HTTPException(status_code=400, detail="Upgrade Membership")
+
+    if membership == "Master" and bookHolded >= 10:
+        raise HTTPException(status_code=400, detail="Max Book Limit Reached")
+
+    for book in books:
+        if book["id"] == book_id:
+            book["stock"] -= 1
+            break
+
     save_books(books)
 
-
-    
     ids_cred = load_ids()
-    ids_cred[0]["borrow_id"]  = ids_cred[0]["borrow_id"]  + 1 
-
+    ids_cred[0]["borrow_id"] += 1
     save_ids(ids_cred)
-    borrow_id = ids_cred[0]["borrow_id"] 
-    
-    Borrow_Data.append(
-    {
-        "borrow_id" : borrow_id , 
-        "book_id" : book_id ,
-        "member_id" : id , 
-        "status":"BORROWED" , 
-        "borrow_date" : date.today().isoformat()
-    }
-    )
 
-    save_json(Borrow_Data , borrow_path)
-    
-    return{
-        "message" : "book assigned"
+    borrow_id = ids_cred[0]["borrow_id"]
+
+    Borrow_Data.append({
+        "borrow_id": borrow_id,
+        "book_id": book_id,
+        "member_id": id,
+        "status": "BORROWED",
+        "borrow_date": date.today().isoformat()
+    })
+
+    save_json(Borrow_Data, borrow_path)
+
+    return {
+        "message": "Book assigned"
     }
-        
     
 def return_book(borrow_id):
     borrow_path = Path("data/borrow_records.json")
     Borrow_Data = load_json(borrow_path)
-    
-    
-    
-    record_found = False 
-    for record in Borrow_Data : 
-        if record["borrow_id"] == borrow_id : 
+
+    record_found = False
+
+    for record in Borrow_Data:
+        if record["borrow_id"] == borrow_id:
+
             if record["status"] == "RETURNED":
-                raise HTTPException(status_code=300 , detail="already returned")
-            record_found = True 
-            book_id = record["book_id"] 
+                raise HTTPException(
+                    status_code=400,
+                    detail="Book already returned"
+                )
+
+            record_found = True
+            book_id = record["book_id"]
             record["status"] = "RETURNED"
-            
-    if not record_found :
-        raise HTTPException(status_code=300 , detail="borrow id doesnt exists")
-        
-    books = load_books()    
-    for book in books : 
-        if(book["id"] == book_id):
-            book["stock"] = book["stock"] + 1 
-            
-    save_books(books) 
+            break
+
+    if not record_found:
+        raise HTTPException(
+            status_code=404,
+            detail="Borrow ID doesn't exist"
+        )
+
+    books = load_books()
+
+    for book in books:
+        if book["id"] == book_id:
+            book["stock"] += 1
+            break
+
+    save_books(books)
     save_json(Borrow_Data, borrow_path)
-    
-    return{
-        "message" : "book returned successfully"
+
+    return {
+        "message": "Book returned successfully"
     }
     
 
