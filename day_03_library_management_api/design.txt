@@ -47,5 +47,5 @@ borrow_id
 member_id
 book_id
 borrow_date
-status status: Literal["BORROWED","RETURNED","LOST"]
+ status: Literal["BORROWED","RETURNED","LOST"]
 

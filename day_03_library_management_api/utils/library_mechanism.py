@@ -2,28 +2,18 @@ from pathlib import Path
 from typing import List , Dict
 from fastapi import HTTPException
 from utils.member import   load_members
-from utils.book import save_books ,  load_books
+from utils.basic_helpers import (
+    load_members,
+    load_books,
+    save_books,
+    load_json,
+    save_json,
+    load_ids,
+    save_ids
+)
 import json
 from datetime import date 
 
-
-
-def load_json(DATA_FILE) -> List[Dict]:
-    with open(DATA_FILE , 'r' , encoding="utf-8") as file : 
-        return json.load(file) 
-
-
-def save_json(data , DATA_FILE):
-    with open(DATA_FILE , 'w' , encoding="utf-8") as file : 
-            json.dump(data , file , indent= 4 , ensure_ascii= False)
-
-ID_PATH = Path("data/id_counter.json")
-
-def load_ids():
-    return load_json(ID_PATH)
-
-def save_ids(ids):
-    save_json(ids , ID_PATH)
 
 def count_books(dataset , member_id) -> int :
     counter = 0 
@@ -54,24 +44,33 @@ def borrow_books(id , book_id) :
         if book["id"] == book_id  : 
             book_exists = True 
             stock = book["stock"] 
-            book["stock"] = book["stock"] - 1 
+            if stock : 
+                book["stock"] = book["stock"] - 1 
             
             
     if not book_exists :
          raise HTTPException(status_code=300 , detail="book doesnt exists")
     if not stock : 
-         raise HTTPException(status_code=503 , detail="out of stock")
+         raise HTTPException(status_code=404 , detail="out of stock")
      
     
     
     borrow_path = Path("data/borrow_records.json")
     Borrow_Data = load_json(borrow_path)
     bookHolded = count_books(Borrow_Data , id)
-    if(membership == "Free" and bookHolded == 3 ) :
+    
+    for record in Borrow_Data:
+        if (
+            record["book_id"] == book_id
+            and record["status"] == "BORROWED"
+        ):
+            raise HTTPException(status_code=300 , detail="Duplicate Borrowing")
+    
+    if(membership == "Free" and bookHolded >= 3 ) :
         raise HTTPException(status_code=400 , detail="Upgarde Membership" )
-    if(membership == "Elite" and bookHolded == 5 ) :
+    if(membership == "Elite" and bookHolded >= 5 ) :
             raise HTTPException(status_code=400 , detail="Upgarde Membership" )
-    if(membership == "Master" and bookHolded == 10 ) :
+    if(membership == "Master" and bookHolded >= 10 ) :
             raise HTTPException(status_code=400 , detail="Max Book Limit Reached" )
         
     save_books(books)

@@ -11,7 +11,7 @@ class Book(BaseModel) :
 class Borrow_Book(BaseModel) : 
     member_id : int 
     book_id : int 
-    borrow_date : date = Field(... , default= date.today() ,  le = date.today())
+    borrow_date : date = Field(default= date.today())
     status : Literal["BORROWED","RETURNED","LOST"]
 
 class Member(BaseModel) : 

@@ -1,0 +1,9 @@
+[
+    {
+        "borrow_id": 10001,
+        "book_id": 10001,
+        "member_id": 10001,
+        "status": "RETURNED",
+        "borrow_date": "2026-07-25"
+    }
+]

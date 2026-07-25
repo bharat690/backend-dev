@@ -1,14 +1,5 @@
 from fastapi import HTTPException 
-from common_utils import load_json , save_json 
-from pathlib import Path
-
-DATA_FILE = Path("data/book.json")
-
-def load_books():
-    return load_json(DATA_FILE) 
-
-def save_books(data):
-    save_json(data , DATA_FILE)
+from utils.basic_helpers import load_books , save_books
 
 
 def add_new_book(data : dict)  :
