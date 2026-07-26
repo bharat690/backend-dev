@@ -1,4 +1,5 @@
 from fastapi import HTTPException 
+from validators.model import BookResponse
 from utils.basic_helpers import load_books , save_books
 
 
@@ -19,12 +20,12 @@ def add_new_book(data : dict)  :
         "message" : "Added New Book" 
     }
 
-def get_book_by_id(id) :
+def get_book_by_id(id) -> BookResponse :
     books = load_books() 
 
     for book in  books : 
         if(book["id"] == id) : 
-            return book 
+            return book  
 
     raise HTTPException(status_code=404 , detail="ID doesnt Exists")
 
