@@ -1,0 +1,56 @@
+                Items
+        --------------------
+        item_id (PK)
+        item_name
+        mrp
+        cost_price
+        stock
+        created_at
+             ▲
+             │
+      ┌──────┴───────────┐
+      │                  │
+      │                  │
+      │                  │
+Batch                  TransactionItems
+----------------      -----------------------
+batch_id (PK)         transaction_item_id (PK)
+item_id (FK)          transaction_id (FK)
+purchase_date         item_id (FK)
+expiry_date           qty
+purchased_qty
+remaining_qty
+
+                ▲
+                │
+                │
+        Transactions
+        --------------------
+        transaction_id (PK)
+        transaction_type
+        amount
+        created_at
+        remark
+
+
+
+GET    /items
+GET    /items/{id}
+POST   /items
+PATCH  /items/{id}
+
+GET    /transactions
+POST   /transactions
+
+GET    /reports/out-of-stock
+GET    /reports/expired
+
+
+
+GET    /reports/profit
+
+GET    /reports/daily-sales
+
+GET    /reports/monthly-sales
+
+GET    /reports/low-stock
