@@ -13,6 +13,8 @@ class Item(SQLModel, table=True):
     cost_price: int = Field(ge=0)
     stock: int = Field(ge=0)
     created_at : date
+    updated_at: date | None = None
+    is_active: bool = Field(default=True)
     
 class Batch(SQLModel , table = True):
     batch_id : int | None = Field(
@@ -39,20 +41,9 @@ class Transaction(SQLModel , table=True):
         default=None,
         primary_key=True
     )
-    transaction_type = Literal[
-        "Purchase",
-        "Sale",
-        "Return"
-    ]
-
-    payment_method = Literal[
-        "Cash",
-        "UPI",
-        "Card",
-        "Cheque",
-        "RTGS"
-    ] | None
+    transaction_type: str = Field(default="Sale")
+    payment_method: str = Field(default="Cash")
     amount : int = Field(ge=1)
     created_at: date = Field(default_factory=date.today)
-    remark : str |None = Field(default=None , max_length=40)
+    remark : str |None = Field(default=None)
         
