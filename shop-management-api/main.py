@@ -3,6 +3,7 @@ from sqlmodel import SQLModel
 from contextlib import asynccontextmanager
 
 from database.database import engine
+from database.session import get_session 
 from models.models import Item
 
 def create_db_and_tables():
@@ -23,4 +24,12 @@ app = FastAPI(lifespan=lifespan)
 def home():
     return {
         "message": "Connected to Server"
+    }
+    
+@app.get("/items")
+def func():
+    session = get_session()
+
+    return {
+        "info": session.info
     }
