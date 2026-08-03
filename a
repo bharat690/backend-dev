@@ -1,0 +1,101 @@
+[33mcommit 6d0e8189f301f2c8bb179a63686520d2786c6419[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: Bharat <brai65917@gmail.com>
+Date:   Sun Aug 2 23:06:01 2026 +0530
+
+    day 14: implement first SQLModel CRUD endpoint for items
+
+[33mcommit 24069163c0461d61131748bcea59c8404501337b[m
+Author: Bharat <brai65917@gmail.com>
+Date:   Sat Aug 1 16:25:11 2026 +0530
+
+    day 13: integrate SQLModel sessions and begin ORM CRUD setup
+
+[33mcommit 1f7013155e5907d872319b99fc5c235fa9948ac4[m
+Author: Bharat <brai65917@gmail.com>
+Date:   Fri Jul 31 20:26:16 2026 +0530
+
+    day 12: refine SQLModel schema and resolve model validation issues
+
+[33mcommit 51fd6b547a713681ae3c212c8302f61b8266b8ec[m
+Author: Bharat <brai65917@gmail.com>
+Date:   Thu Jul 30 23:23:36 2026 +0530
+
+    day 11: design shop management database models
+
+[33mcommit 917d60540c07d037813178fcaed7cfd2947cf009[m
+Author: Bharat <brai65917@gmail.com>
+Date:   Wed Jul 29 21:58:57 2026 +0530
+
+    day 10: integrate SQLModel and auto-create PostgreSQL tables
+
+[33mcommit 009ee76a171416501ae93638cf74c1d407857d9a[m
+Author: Bharat <brai65917@gmail.com>
+Date:   Tue Jul 28 21:11:20 2026 +0530
+
+    day 09: design shop management database schema
+
+[33mcommit e7ab2bcbce83bb01674f5e4ec383b82370042893[m
+Author: Bharat <brai65917@gmail.com>
+Date:   Mon Jul 27 21:12:08 2026 +0530
+
+    day 08: setup PostgreSQL project and database connection
+
+[33mcommit 29636254d7b916a82c4224a295071fc9bf665f63[m
+Author: Bharat <brai65917@gmail.com>
+Date:   Sun Jul 26 22:57:14 2026 +0530
+
+    day 07: add request and response models
+
+[33mcommit 944bd1e80a6117a0149fdac94376355b3bd14064[m
+Author: Bharat <brai65917@gmail.com>
+Date:   Sat Jul 25 21:13:23 2026 +0530
+
+    day 06: refactor and validate library management API
+
+[33mcommit de31e6c521e605ae2e77d4a6482e19f1f9fb9c7d[m
+Author: Bharat <brai65917@gmail.com>
+Date:   Sat Jul 25 21:02:29 2026 +0530
+
+    day 06: fix circular imports bug in library management API
+
+[33mcommit bd94bc9b1bd6a7aa61cc88e099d4918804223ca1[m
+Author: Bharat <brai65917@gmail.com>
+Date:   Fri Jul 24 14:47:24 2026 +0530
+
+    day 05: complete library management API
+
+[33mcommit e10c087d7b7ebac6d7fccf242fe7290b5e52896b[m
+Author: Bharat <brai65917@gmail.com>
+Date:   Thu Jul 23 23:24:03 2026 +0530
+
+    day 04: implement member module foundation
+
+[33mcommit edc0a2ec459eb6edb5419e85fb8ebc0dcd037b8d[m
+Author: Bharat <brai65917@gmail.com>
+Date:   Wed Jul 22 22:22:00 2026 +0530
+
+    day 03: scaffold library management API
+
+[33mcommit 2d791b559c3e4e39306c6aa55710a2d9e87aec37[m
+Author: Bharat <brai65917@gmail.com>
+Date:   Tue Jul 21 22:23:35 2026 +0530
+
+    feat(day-02): implement book inventory CRUD with filtering
+
+[33mcommit cefa278b5bc699097cca181a8c97be33808dc968[m
+Author: Bharat <brai65917@gmail.com>
+Date:   Mon Jul 20 20:38:59 2026 +0530
+
+    add : added email-validator
+
+[33mcommit fcf86583b8d12d12b7ebd55763cb910ed3a83eb6[m
+Author: Bharat <brai65917@gmail.com>
+Date:   Mon Jul 20 20:37:01 2026 +0530
+
+    day 01: initialize student registry API
+
+[33mcommit 9bbefe43ec90537d995693c2b46c37e1f5c2056a[m
+Author: Bharat <brai65917@gmail.com>
+Date:   Mon Jul 20 19:24:59 2026 +0530
+
+    chore: initialize backend development environment
