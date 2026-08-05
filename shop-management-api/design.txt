@@ -33,6 +33,12 @@ remaining_qty
         remark
 
 
+routes/
+  -item.py
+  -transaction.py
+  -reports.py
+  -analytics.py
+
 
 GET    /items
 GET    /items/{id}
