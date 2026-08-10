@@ -38,11 +38,19 @@ def load_balancer():
 
         currServer = (currServer + 1) % total_servers
 
-        if is_healthy(server):
-
-            response = httpx.get(server)
-
+        if not is_healthy(server):
+            
+            continue
+        
+        try :
+            response = httpx.get(server , timeout= 2)
+            
             return response.json()
+            
+        except(httpx.ConnectError , httpx.TimeoutException):
+            continue 
+
+            
 
     return {
         "error": "No healthy servers available"
