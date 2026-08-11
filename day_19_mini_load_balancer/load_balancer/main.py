@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+import time
 import httpx
 
 app = FastAPI()
@@ -43,7 +44,15 @@ def load_balancer():
             continue
         
         try :
+            start = time.perf_counter_ns()
+            
             response = httpx.get(server , timeout= 2)
+            
+            end = time.perf_counter_ns() 
+            
+            elapsed_ms = (end - start) / 1_000_000
+
+            print(f"Server: {server}\nResponse Time: {elapsed_ms:.2f} ms")
             
             return response.json()
             
