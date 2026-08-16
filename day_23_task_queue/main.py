@@ -19,3 +19,11 @@ def task(tasks: list):
     "message": "Tasks queued",
     "count": len(tasks)
     }
+    
+@app.get("/tasks/next")
+def get_next_task():
+    task = my_queue.get_nowait()
+
+    return {
+        "task": task
+    }
