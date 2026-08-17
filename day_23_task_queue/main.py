@@ -1,5 +1,5 @@
-from fastapi import FastAPI 
-from queue import Queue
+from fastapi import FastAPI , HTTPException
+from queue import Queue , Empty
 
 app = FastAPI()
 
@@ -22,8 +22,10 @@ def task(tasks: list):
     
 @app.get("/tasks/next")
 def get_next_task():
-    task = my_queue.get_nowait()
-
-    return {
-        "task": task
-    }
+    try:
+        task = my_queue.get_nowait()
+    except Empty:
+        raise HTTPException(
+            status_code=404,
+            detail="No Tasks Remaining in Queue"
+        )
